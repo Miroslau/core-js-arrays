@@ -25,9 +25,7 @@ function getIntervalArray(start, end) {
 
   const length = end - start + 1;
 
-  return Array(length)
-    .fill(0)
-    .map((_, index) => start + index);
+  return Array.from({ length }, (_, index) => start + index);
 }
 
 /**
@@ -68,7 +66,7 @@ function sumArrays(arr1, arr2) {
  *    findElement([0, 1, 2, 3, 4, 5], 5) => 5
  */
 function findElement(arr, value) {
-  return arr.findIndex((item) => item === value);
+  return arr.indexOf(value);
 }
 
 /**
