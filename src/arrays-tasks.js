@@ -445,21 +445,9 @@ function getFalsyValuesCount(arr) {
  *                              [0,0,0,0,1]]
  */
 function getIdentityMatrix(n) {
-  const matrix = [];
-
-  for (let i = 0; i < n; i += 1) {
-    matrix.push([]);
-
-    for (let j = 0; j < n; j += 1) {
-      if (i === j) {
-        matrix[i][j] = 1;
-      } else {
-        matrix[i][j] = 0;
-      }
-    }
-  }
-
-  return matrix;
+  return Array.from({ length: n }, (_, i) =>
+    Array.from({ length: n }, (__, j) => (i === j ? 1 : 0))
+  );
 }
 
 /**
@@ -514,17 +502,7 @@ function getHexRGBValues(arr) {
  *   getMaxItems([ 10, 10, 10, 10 ], 3) => [ 10, 10, 10 ]
  */
 function getMaxItems(arr, n) {
-  if (arr.length === 0) return [];
-
-  arr.sort((a, b) => a - b);
-
-  while (arr.length !== n) {
-    arr.shift();
-  }
-
-  arr.sort((a, b) => b - a);
-
-  return arr;
+  return arr.toSorted((a, b) => b - a).slice(0, n);
 }
 
 /**
@@ -540,17 +518,8 @@ function getMaxItems(arr, n) {
  *    findCommonElements([1, 2, 3], ['a', 'b', 'c']) => []
  */
 function findCommonElements(arr1, arr2) {
-  const intersectionValues = [];
-  const uniqueArr1 = [...new Set(arr1)];
-  const setOfIntersectionValues2 = new Set(arr2);
-
-  for (let index = 0; index < uniqueArr1.length; index += 1) {
-    if (setOfIntersectionValues2.has(uniqueArr1[index])) {
-      intersectionValues.push(uniqueArr1[index]);
-    }
-  }
-
-  return intersectionValues;
+  const set2 = new Set(arr2);
+  return [...new Set(arr1)].filter((item) => set2.has(item));
 }
 
 /**
@@ -567,23 +536,15 @@ function findCommonElements(arr1, arr2) {
 function findLongestIncreasingSubsequence(nums) {
   if (nums.length === 0) return 0;
 
-  let longestIncreasingSubsequence = 1;
-  let leftPoint = 0;
+  let currentStreak = 1;
 
-  for (let rightPoint = 1; rightPoint < nums.length; rightPoint += 1) {
-    if (nums[rightPoint] < nums[rightPoint - 1]) {
-      const windowSize = rightPoint - leftPoint;
-      longestIncreasingSubsequence = Math.max(
-        longestIncreasingSubsequence,
-        windowSize
-      );
-      leftPoint = rightPoint;
-    }
-  }
+  return nums.reduce((maxLength, num, index) => {
+    if (index === 0) return maxLength;
 
-  const lastWindowSize = nums.length - leftPoint;
+    currentStreak = num > nums[index - 1] ? currentStreak + 1 : 1;
 
-  return Math.max(longestIncreasingSubsequence, lastWindowSize);
+    return Math.max(maxLength, currentStreak);
+  }, 1);
 }
 
 /**
@@ -660,22 +621,16 @@ function sortDigitNamesByNumericOrder() {
  *
  */
 function swapHeadAndTail(arr) {
-  const result = [...arr];
+  if (arr.length <= 1) return [...arr];
 
-  if (result.length <= 1) return result;
+  const half = Math.floor(arr.length / 2);
 
-  const half = Math.floor(result.length / 2);
+  const head = arr.slice(0, half);
+  const tail = arr.slice(arr.length % 2 === 0 ? half : half + 1);
 
-  const tailStart = result.length % 2 === 0 ? half : half + 1;
+  const middle = arr.length % 2 === 0 ? [] : [arr[half]];
 
-  for (let index = 0; index < half; index += 1) {
-    [result[index], result[index + tailStart]] = [
-      result[index + tailStart],
-      result[index],
-    ];
-  }
-
-  return result;
+  return [...tail, ...middle, ...head];
 }
 
 module.exports = {
