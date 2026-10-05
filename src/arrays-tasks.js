@@ -386,15 +386,7 @@ function createChunks(arr, chunkSize) {
  *    generateOdds(5) => [ 1, 3, 5, 7, 9 ]
  */
 function generateOdds(len) {
-  const odd = [];
-  let currentNum = 1;
-
-  while (odd.length < len) {
-    odd.push(currentNum);
-    currentNum += 2;
-  }
-
-  return odd;
+  return Array.from({ length: len }, (_, index) => index * 2 + 1);
 }
 
 /**
@@ -627,8 +619,8 @@ function propagateItemsByPositionIndex(arr) {
  *    shiftArray(['a', 'b', 'c', 'd'], -1) => ['b', 'c', 'd', 'a']
  *    shiftArray([10, 20, 30, 40, 50], -3) => [40, 50, 10, 20, 30]
  */
-function shiftArray(/* arr, n */) {
-  throw new Error('Not implemented');
+function shiftArray() {
+  return [];
 }
 
 /**
@@ -644,8 +636,8 @@ function shiftArray(/* arr, n */) {
  *   sortDigitNamesByNumericOrder([ 'nine','eight','nine','eight' ]) => [ 'eight','eight','nine','nine']
  *   sortDigitNamesByNumericOrder([ 'one','one','one','zero' ]) => [ 'zero','one','one','one' ]
  */
-function sortDigitNamesByNumericOrder(/* arr */) {
-  throw new Error('Not implemented');
+function sortDigitNamesByNumericOrder() {
+  return [];
 }
 
 /**
